@@ -1,0 +1,13 @@
+.root {
+  padding: 10px;
+}
+
+.root p {
+  margin: 5px 0;
+}
+
+.statClass {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  gap: 5px;
+}

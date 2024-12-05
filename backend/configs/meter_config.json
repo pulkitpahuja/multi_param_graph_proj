@@ -1,0 +1,137 @@
+[
+  {
+    "id": 1,
+    "name": "Meter 1",
+    "description": "Meter with multiple parameters",
+    "parameters": [
+      {
+        "name": "Va",
+        "unit": "A",
+        "multiplier": 0.1,
+        "display": true,
+        "ad_lo": 2,
+        "ad_hi": 2,
+        "qty_lo": 2
+      },
+      {
+        "name": "Vb",
+        "unit": "A",
+        "multiplier": 0.1,
+        "display": true,
+        "ad_lo": 2,
+        "ad_hi": 2,
+        "qty_lo": 2
+      },
+      {
+        "name": "Vc",
+        "unit": "kw",
+        "multiplier": 0.1,
+        "display": true,
+        "ad_lo": 2,
+        "ad_hi": 2,
+        "qty_lo": 2,
+        "graph": true
+      },
+      {
+        "name": "Vab",
+        "unit": "kwh",
+        "multiplier": 0.1,
+        "display": true,
+        "ad_lo": 2,
+        "ad_hi": 2,
+        "qty_lo": 2,
+        "graph": true
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Meter 2",
+    "description": "Meter with multiple parameters",
+    "parameters": [
+      {
+        "name": "Vbc",
+        "unit": "A",
+        "multiplier": 0.1,
+        "display": true,
+        "ad_lo": 2,
+        "ad_hi": 2,
+        "qty_lo": 2
+      },
+      {
+        "name": "Vca",
+        "unit": "A",
+        "multiplier": 0.1,
+        "display": true,
+        "ad_lo": 2,
+        "ad_hi": 2,
+        "qty_lo": 2
+      },
+      {
+        "name": "Ia",
+        "unit": "kw",
+        "multiplier": 0.1,
+        "display": true,
+        "ad_lo": 2,
+        "ad_hi": 2,
+        "qty_lo": 2,
+        "graph": true
+      },
+      {
+        "name": "Ib",
+        "unit": "kwh",
+        "multiplier": 0.1,
+        "display": true,
+        "ad_lo": 2,
+        "ad_hi": 2,
+        "qty_lo": 2,
+        "graph": true
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Meter 3",
+    "description": "Meter with multiple parameters",
+    "parameters": [
+      {
+        "name": "Ic",
+        "unit": "A",
+        "multiplier": 0.1,
+        "display": true,
+        "ad_lo": 2,
+        "ad_hi": 2,
+        "qty_lo": 2
+      },
+      {
+        "name": "PFa",
+        "unit": "A",
+        "multiplier": 0.1,
+        "display": true,
+        "ad_lo": 2,
+        "ad_hi": 2,
+        "qty_lo": 2
+      },
+      {
+        "name": "PFb",
+        "unit": "kw",
+        "multiplier": 0.1,
+        "display": true,
+        "ad_lo": 2,
+        "ad_hi": 2,
+        "qty_lo": 2,
+        "graph": true
+      },
+      {
+        "name": "PFc",
+        "unit": "kwh",
+        "multiplier": 0.1,
+        "display": true,
+        "ad_lo": 2,
+        "ad_hi": 2,
+        "qty_lo": 2,
+        "graph": true
+      }
+    ]
+  }
+]
