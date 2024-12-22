@@ -17,7 +17,6 @@ from werkzeug.serving import WSGIRequestHandler
 from python_modules.logfo import *
 import operator
 from functools import reduce
-import numpy as np
 
 COM_PORT = ""
 BAUD_RATE = 9600
@@ -307,25 +306,29 @@ def start_motors():
     js = request.json
     run_type = js["type"]
     dev_id = js["devID"]
-    sched_map = [d for d in modbus.schedular_map if d["id"] == dev_id][0]
-    ind = modbus.schedular_map.index(sched_map)
+    # sched_map = [d for d in modbus.schedular_map if d["id"] == dev_id][0]
+    # ind = modbus.schedular_map.index(sched_map)
 
     if run_type == 1:
         modbus.data_buffer = {}
-        sched_map["running_status"] = True
+        # sched_map["running_status"] = True
+        for d in modbus.schedular_map:
+            d['running_status'] = True
         modbus.bool_process(True)
     else:
-        sched_map["running_status"] = False
-        modbus.final_data[str(dev_id)]["running_status"] = sched_map["running_status"]
+        # sched_map["running_status"] = False
+        # modbus.final_data[str(dev_id)]["running_status"] = sched_map["running_status"]
+        for d in modbus.schedular_map:
+            d['running_status'] = False
 
-    modbus.schedular_map[ind] = sched_map
+    # modbus.schedular_map[ind] = sched_map
 
     no_running_statuses = not any(d["running_status"] for d in modbus.schedular_map)
     if no_running_statuses:
         ### checks if no prcoesses are running
         modbus.bool_process(False)  ## shutdown the data retrieval
 
-    stat = str(int(sched_map["running_status"]))
+    stat = str(int(modbus.running == True))
     return Response(stat, status=200, mimetype="text/plain")
 
 

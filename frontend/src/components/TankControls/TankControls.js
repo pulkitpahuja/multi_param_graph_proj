@@ -1,6 +1,6 @@
 import React from "react";
 import TankStatus from "./TankStatus/TankStatus";
-import { EuiFlexItem, EuiFlexGrid, EuiSpacer } from "@elastic/eui";
+import { EuiFlexItem, EuiFlexGrid, EuiSpacer, EuiFlexGroup } from "@elastic/eui";
 import TankForm from "./TankForm/TankForm";
 import TankOnOff from "./TankOnOff/TankOnOff";
 import MeterMeta from "./MeterMeta/MeterMeta";
@@ -11,11 +11,11 @@ const TankControls = (props) => {
     <div>
       {/* <TankSession meta={meta}/> */}
       <EuiSpacer />
-      <EuiFlexGrid columns={2} alignItems="center">
-        <EuiFlexItem grow={1}>
+      <EuiFlexGroup justifyContent="spaceAround" alignItems="center">
+        {/* <EuiFlexItem grow={1}>
           <TankOnOff meta={meta} deviceData={controlData} />
-        </EuiFlexItem>
-        <EuiFlexItem>
+        </EuiFlexItem> */}
+        <EuiFlexItem grow={false}>
           <MeterMeta meta={meta} deviceData={controlData} />
         </EuiFlexItem>
         {/* <EuiFlexItem grow={2}>
@@ -24,7 +24,7 @@ const TankControls = (props) => {
         <EuiFlexItem grow={3}>
           <TankForm meta={meta} deviceData={controlData} />
         </EuiFlexItem> */}
-      </EuiFlexGrid>
+      </EuiFlexGroup>
     </div>
   );
 };

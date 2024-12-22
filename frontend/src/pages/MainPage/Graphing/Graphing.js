@@ -19,12 +19,12 @@ const Graphing = (props) => {
     const firstTickSplit = firstTick.split("_");
     const secondTickSplit = secondTick.split("_");
     const first_tick = {
-      table_name: firstTickSplit[0],
+      table_name: firstTickSplit[0].toLowerCase(),
       var_name: firstTickSplit[1],
     };
 
     const second_tick = {
-      table_name: secondTickSplit[0],
+      table_name: secondTickSplit[0].toLowerCase(),
       var_name: secondTickSplit[1],
     };
 

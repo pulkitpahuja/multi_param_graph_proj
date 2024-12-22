@@ -6,8 +6,9 @@ import {
   EuiPageBody,
   EuiPageHeader,
   EuiTitle,
-  EuiCallOut,
-  EuiSpacer,
+  EuiButton,
+  EuiFlexGroup,
+  EuiFlexItem,
 } from "@elastic/eui";
 import { ERROR_DATA_LINK, DATA_LINK, VAR_DATA_LINK } from "../../Constants";
 import Tabs from "./Tabs";
@@ -17,6 +18,8 @@ import { setEventSource } from "../../store/slices/eventSourceSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { setKWHVal } from "../../store/slices/kwhDataSlice";
 import { setKWVal } from "../../store/slices/kwDataSlice";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 import ErrorFlyout from "../../components/ErrorFlyout/ErrorFlyout";
 
@@ -29,6 +32,50 @@ const MainPage = () => {
   useEffect(() => {
     startStream();
   }, []);
+
+  const startDataStream = () => {
+    axios
+      .post("http://127.0.0.1:5000/start_motors", { type: 1, devID: null })
+      .then(function (response) {
+        // handle success
+        const d = response.data;
+        if (parseInt(d) === 1) {
+          return toast.success(`Data comm. started`);
+        } else {
+          return toast.warn(`Data comm. stopped`);
+        }
+      })
+      .catch(function (error) {
+        // handle error
+        console.error(error);
+        return toast.error(`There was an error processing the request`);
+      })
+      .then(function () {
+        // always executed
+      });
+  };
+
+  const stopStream = () => {
+    axios
+      .post("http://127.0.0.1:5000/start_motors", { type: 0, devID: null })
+      .then(function (response) {
+        // handle success
+        const d = response.data;
+        if (parseInt(d) === 1) {
+          return toast.success(`Data comm. started`);
+        } else {
+          return toast.warn(`Data comm. stopped`);
+        }
+      })
+      .catch(function (error) {
+        // handle error
+        console.error(error);
+        return toast.error(`There was an error processing the request`);
+      })
+      .then(function () {
+        // always executed
+      });
+  };
 
   const loadingPrompt = (
     <EuiEmptyPrompt
@@ -78,7 +125,21 @@ const MainPage = () => {
       <EuiPageBody>
         <EuiPageHeader
           pageTitle="Data Monitoring"
-          description={<ErrorFlyout />}
+          description={
+            <EuiFlexGroup>
+              <EuiFlexItem grow={false}>
+                <EuiButton color="success" onClick={startDataStream}>
+                  Start
+                </EuiButton>
+              </EuiFlexItem>
+              <EuiFlexItem grow={false}>
+                <EuiButton color="danger" onClick={stopStream}>Stop</EuiButton>
+              </EuiFlexItem>
+              <EuiFlexItem>
+                <ErrorFlyout />
+              </EuiFlexItem>
+            </EuiFlexGroup>
+          }
           paddingSize="l"
         />
 
