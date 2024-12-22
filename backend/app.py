@@ -280,7 +280,7 @@ def graph_var_data_stream():
             second_data = modbus.get_spec_records(second_tick_device, start, end, second_tick_var_name)
             first_final_data = [d[first_tick_var_name] for d in first_data[str(first_tick_device)]]
             second_final_data = [d[second_tick_var_name] for d in second_data[str(second_tick_device)]]
-            if first_data.count(None) == len(first_data) or second_data.count(None) == len(second_data):
+            if first_final_data.count(None) == len(first_final_data) or second_final_data.count(None) == len(second_final_data):
                 raise Exception("No data found")
             final_data =  reduce(operator.add, zip(first_final_data, second_final_data))
             final = [final_data[i:i + 2] for i in range(0, len(final_data), 2)] 
