@@ -1,10 +1,6 @@
-from datetime import date, timedelta, datetime, timezone as tzz
-import dateutil,time
+from datetime import timedelta, datetime
+import time
 
-from pytz import timezone
-curr_tz = datetime.now().astimezone().tzinfo.tzname(datetime.now())
-tz_inf = "Canada/Eastern" if curr_tz == "EST" or curr_tz == "EDT"  else "Asia/Calcutta"
-curr_tz = timezone(tz_inf)
 
 def get_dates(start_date, end_date):
     sdate = datetime.strptime(start_date, "%Y-%m-%d")  # start date
@@ -17,12 +13,12 @@ def get_dates(start_date, end_date):
     return lst
 
 def get_time():
-    now = datetime.now(tz=curr_tz)
+    now = datetime.now()
     time_string = now.strftime("%H:%M:%S")
     return time_string
 
 def get_date():
-    now = datetime.now(tz=curr_tz)
+    now = datetime.now()
     date_string = now.strftime("%Y-%m-%d")
     return date_string
 
@@ -35,9 +31,9 @@ def get_unix_time():
 
 def get_unixtime_from_datetime(date):
     d = datetime.strptime(date, '%Y-%m-%d')
-    news_date = d.replace(tzinfo=dateutil.tz.gettz(tz_inf))
+    news_date = d.replace()
     unix_time = int(news_date.timestamp())
     return str(unix_time)
 
 def get_datetime_from_unixtime(unix):
-    return datetime.fromtimestamp(unix,tz=curr_tz).strftime('%Y-%m-%d %H:%M:%S')
+    return datetime.fromtimestamp(unix).strftime('%Y-%m-%d %H:%M:%S')
