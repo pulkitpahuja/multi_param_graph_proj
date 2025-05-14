@@ -3,9 +3,15 @@
     "id": 1,
     "name": "Meter 1",
     "description": "Meter with multiple parameters",
+    "polling_type": "multiple",
+    "multi_poll_config": {
+      "ad_lo": 2,
+      "ad_hi": 2,
+      "qty_lo": 2
+    },
     "parameters": [
       {
-        "name": "Va",
+        "name": "M1A1",
         "unit": "A",
         "multiplier": 0.1,
         "display": true,
@@ -14,7 +20,7 @@
         "qty_lo": 2
       },
       {
-        "name": "Vb",
+        "name": "M1A2",
         "unit": "A",
         "multiplier": 0.1,
         "display": true,
@@ -23,7 +29,7 @@
         "qty_lo": 2
       },
       {
-        "name": "Vc",
+        "name": "Active Power",
         "unit": "kw",
         "multiplier": 0.1,
         "display": true,
@@ -33,7 +39,7 @@
         "graph": true
       },
       {
-        "name": "Vab",
+        "name": "Active Energy",
         "unit": "kwh",
         "multiplier": 0.1,
         "display": true,
@@ -48,9 +54,15 @@
     "id": 2,
     "name": "Meter 2",
     "description": "Meter with multiple parameters",
+    "polling_type": "single",
+    "multi_poll_config": {
+      "ad_lo": 2,
+      "ad_hi": 2,
+      "qty_lo": 2
+    },
     "parameters": [
       {
-        "name": "Vbc",
+        "name": "M1A1",
         "unit": "A",
         "multiplier": 0.1,
         "display": true,
@@ -59,7 +71,7 @@
         "qty_lo": 2
       },
       {
-        "name": "Vca",
+        "name": "M1A2",
         "unit": "A",
         "multiplier": 0.1,
         "display": true,
@@ -68,7 +80,7 @@
         "qty_lo": 2
       },
       {
-        "name": "Ia",
+        "name": "Active Power",
         "unit": "kw",
         "multiplier": 0.1,
         "display": true,
@@ -78,7 +90,7 @@
         "graph": true
       },
       {
-        "name": "Ib",
+        "name": "Active Energy",
         "unit": "kwh",
         "multiplier": 0.1,
         "display": true,
@@ -93,9 +105,15 @@
     "id": 3,
     "name": "Meter 3",
     "description": "Meter with multiple parameters",
+    "polling_type": "single",
+    "multi_poll_config": {
+      "ad_lo": 2,
+      "ad_hi": 2,
+      "qty_lo": 2
+    },
     "parameters": [
       {
-        "name": "Ic",
+        "name": "M1A1",
         "unit": "A",
         "multiplier": 0.1,
         "display": true,
@@ -104,7 +122,7 @@
         "qty_lo": 2
       },
       {
-        "name": "PFa",
+        "name": "M1A2",
         "unit": "A",
         "multiplier": 0.1,
         "display": true,
@@ -113,7 +131,7 @@
         "qty_lo": 2
       },
       {
-        "name": "PFb",
+        "name": "Active Power",
         "unit": "kw",
         "multiplier": 0.1,
         "display": true,
@@ -123,7 +141,7 @@
         "graph": true
       },
       {
-        "name": "PFc",
+        "name": "Active Energy",
         "unit": "kwh",
         "multiplier": 0.1,
         "display": true,
