@@ -10,14 +10,13 @@ const TankControls = (props) => {
   return (
     <div>
       {/* <TankSession meta={meta}/> */}
-      <EuiSpacer />
       <EuiFlexGroup justifyContent="spaceAround" alignItems="center">
         {/* <EuiFlexItem grow={1}>
           <TankOnOff meta={meta} deviceData={controlData} />
         </EuiFlexItem> */}
-        <EuiFlexItem grow={false}>
+        <EuiFlexItem>
           <MeterMeta meta={meta} deviceData={controlData} />
-        </EuiFlexItem>
+        </EuiFlexItem> 
         {/* <EuiFlexItem grow={2}>
           <TankStatus deviceData={controlData} meta={meta} />
         </EuiFlexItem>

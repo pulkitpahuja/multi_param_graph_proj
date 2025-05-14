@@ -9,6 +9,7 @@ const ChooseFunction = (props) => {
   const reportingState = useSelector((state) => state.reportingState);
 
   const options = [
+    { value: "ALL", text: "Timewise" },
     { value: "AVG", text: "Avg." },
     { value: "MAX", text: "Max." },
     { value: "MIN", text: "Min." },

@@ -3,7 +3,7 @@ from python_modules.modbus_helper import modbus
 from python_modules.pdf_report import PdfReport
 import python_modules.time_helper as time_helper
 from python_modules.filepaths import *
-from apscheduler.schedulers.background import BackgroundScheduler
+from python_modules.csv_report import CsvReport
 from flask import (
     Flask,
     request,
@@ -262,6 +262,33 @@ def get_vars():
 
     return jsonify(vars_flat)
 
+@app.route("/csv", methods=["POST"])
+def csv():
+    try:
+        js = request.json
+        _parameters = js["parameters"]
+        _day_start = js["day_start"]
+        _day_end = js["day_end"]
+        _interval = js["interval"]
+        _func = js["func"]
+        _device_id = js["device_id"]
+        csv = CsvReport(modbus)
+        f = csv.add_data(
+            device_id=[_device_id],
+            day_start=_day_start,
+            day_end=_day_end,
+            interval=_interval,
+            func=_func,
+            parameters=_parameters,
+        )
+        if f:
+            return Response(f, status=200, mimetype="text/plain")
+        else:
+            raise Exception("There was an error generating file.")
+
+    except Exception as e:
+        raise Exception(e)
+
 
 @app.route("/graph_var_data_stream")
 def graph_var_data_stream():
@@ -289,6 +316,7 @@ def graph_var_data_stream():
                 yield "data: " + json.dumps(final) + "\n\n"
 
     return Response(dataStream(), mimetype="text/event-stream")
+
 
 
 @app.route("/get_records", methods=["POST"])

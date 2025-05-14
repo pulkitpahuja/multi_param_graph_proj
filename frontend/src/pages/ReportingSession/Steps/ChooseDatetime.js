@@ -10,7 +10,8 @@ const ChooseDatetime = (props) => {
 
   const reportingState = useSelector((state) => state.reportingState);
 
-  const onChangeStartDate = (date) => {
+  const onChangeStartDate = (date,time) => {
+    console.log(time);
     if (!date) return;
     console.log(date);
     const s = { ...reportingState };
@@ -35,6 +36,7 @@ const ChooseDatetime = (props) => {
             startDate={reportingState.day_start}
             endDate={reportingState.day_end}
             aria-label="Start date"
+            showTimeSelect
           />
         }
         endDateControl={
@@ -44,6 +46,7 @@ const ChooseDatetime = (props) => {
             startDate={reportingState.day_start}
             endDate={reportingState.day_end}
             aria-label="End date"
+            showTimeSelect
           />
         }
       />

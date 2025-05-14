@@ -13,13 +13,13 @@ const MeterMeta = (props) => {
   const { meta, deviceData } = props;
 
   return (
-    <EuiFlexGroup direction="column">
+    <EuiFlexGroup direction="row">
       <EuiFlexItem>
-        <EuiFlexGroup direction="row">
+        <EuiFlexGroup direction="row" alignItems="center">
           <EuiFlexItem>
             <EuiText>Communication Status: </EuiText>
           </EuiFlexItem>
-          <EuiFlexItem>
+          <EuiFlexItem grow={0}>
             <EuiHealth color={deviceData["comm_status"] ? "success" : "danger"}>
               {deviceData["comm_status"]}
             </EuiHealth>
@@ -27,11 +27,11 @@ const MeterMeta = (props) => {
         </EuiFlexGroup>
       </EuiFlexItem>
       <EuiFlexItem>
-        <EuiFlexGroup direction="row">
+        <EuiFlexGroup direction="row" alignItems="center">
           <EuiFlexItem>
             <EuiText>Running Status: </EuiText>
           </EuiFlexItem>
-          <EuiFlexItem>
+          <EuiFlexItem grow={0}>
             <EuiHealth
               color={deviceData["running_status"] ? "success" : "danger"}
             >

@@ -29,6 +29,7 @@ const ChooseInterval = (props) => {
         options={options}
         value={reportingState.interval}
         onChange={onChange}
+        disabled={reportingState['func'] === "ALL"}
         aria-label="Use aria labels when no actual label is in use"
       />
     </div>

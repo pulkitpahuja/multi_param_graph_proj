@@ -280,16 +280,15 @@ class Modbus:
         if not device_found:
             return
         sched_map = [d for d in self.schedular_map if d["id"] == device_id][0]
-
         samp_data = 0x02 * [4]
         results_evaluated = []
         device_comm_status = False
-        for param in device_found["parameters"]:
+        if 'polling_type' in device_found and device_found['polling_type'] == "multiple" and 'multi_poll_config' in device_found:
             if not self.running:
                 return
-            ad_hi = param["ad_hi"] if "ad_hi" in param else 0
-            ad_lo = param["ad_lo"]
-            qty_lo = param["qty_lo"]
+            ad_hi = device_found['multi_pol_config']["ad_hi"] if "ad_hi" in device_found['multi_pol_config'] else 0
+            ad_lo = device_found['multi_pol_config']["ad_lo"]
+            qty_lo = device_found['multi_pol_config']["qty_lo"]
             if self.mock_mode:
                 data = [random.random() * 10]
             else:
@@ -301,8 +300,29 @@ class Modbus:
                 results_evaluated.append(None)
             else:
                 device_comm_status = True
-                rounded = round(data[0] * param["multiplier"], 3)
-                results_evaluated.append(rounded)
+                for idx,param in enumerate(device_found["parameters"]):
+                    rounded = round(data[idx] * param["multiplier"], 3)
+                    results_evaluated.append(rounded)
+        else:
+            for param in device_found["parameters"]:
+                if not self.running:
+                    return
+                ad_hi = param["ad_hi"] if "ad_hi" in param else 0
+                ad_lo = param["ad_lo"]
+                qty_lo = param["qty_lo"]
+                if self.mock_mode:
+                    data = [random.random() * 10]
+                else:
+                    data = self.read_modbus(
+                        device_id=device_id, ad_hi=ad_hi, ad_lo=ad_lo, qty_lo=qty_lo
+                    )
+
+                if data == None:
+                    results_evaluated.append(None)
+                else:
+                    device_comm_status = True
+                    rounded = round(data[0] * param["multiplier"], 3)
+                    results_evaluated.append(rounded)
 
         index = 0
         self.data_ready = False
@@ -757,7 +777,7 @@ class Modbus:
 
         if (24 * 60) % interval:
             logfo.loge("Interval not divisible equally, ignoring last interval")
-        # Get list of pairs based on intervals, eg(5min) - [(1674239400, 1674239400+5*60)]
+        # Get list of pairs based on intervals, eg(5min) - [(1674239400, 1674239400+5*60)]        
         start = int(time_helper.get_unixtime_from_datetime(date_start))
         end = int(time_helper.get_unixtime_from_datetime(date_end))
         
@@ -777,39 +797,66 @@ class Modbus:
         meta = {}
         meta["name"] = meta_full["name"]
         meta["id"] = meta_full["id"]
-        # print(meta)
-        for sec in range(start, end, step):
-            groups.append((sec, sec + step - 1))
         logfo.logi("Modbus", "Fetching Report, id:", device)
-        for group in groups:
-            result_row = {}  # Single row like V1: 123, V2:123, timespamp:abcd
-            for param in params:
-                sql = "SELECT {func}(`{key}`) AS `{key}` FROM admin_database.`{name}` WHERE unix_time BETWEEN {start_time} AND {end_time}".format(
-                    name=self.get_device(device)["name"] + "-" + str(device),
-                    start_time=group[0],
-                    end_time=group[1],
-                    key=param,
-                    func=func,
-                )
-                r = sql_handler.getResult(sql)
-                print(r)
-                timestamp = time_helper.get_datetime_from_unixtime(group[0])
-                # timestamp = r[0]['timestamp']
-                # if r[0]['timestamp'] == None:
-                #     timestamp = time_helper.get_datetime_from_unixtime(group[0])
-                # else:
-                #     timestamp %= (interval*60)
-                if r:
-                    result_row[param] = self._get_sql_float(r, param)
+        print(func)
+        if func == "ALL":
+            columns = ", ".join("`{}`".format(p) for p in params)
+            sql = "SELECT {columns},timestamp FROM admin_database.`{name}` WHERE unix_time BETWEEN {start_time} AND {end_time}".format(
+                columns=columns,
+                name=self.get_device(device)["name"] + "-" + str(device),
+                start_time=start,
+                end_time=end
+            )
+            print(sql)
+            r = sql_handler.getResult(sql)
+            # timestamp = r[0]['timestamp']
+            # if r[0]['timestamp'] == None:
+            #     timestamp = time_helper.get_datetime_from_unixtime(group[0])
+            # else:
+            #     timestamp %= (interval*60)
+            if r:
+                for row in r:
+                    result_row = {}  # Single row like V1: 123, V2:123, timespamp:abcd
+                    for param in params:
+                        result_row[param] = self._get_sql_float([row], param)
+                        result_row['timestamp'] = row['timestamp']
+                
+                    non_device_keys = {"timestamp", "name", "id"}
+                    if any(value is not None for key, value in result_row.items() if key not in non_device_keys):
+                        result_row.update(meta)
+                        result.append(result_row)
+        else:
+            for sec in range(start, end, step):
+                groups.append((sec, sec + step - 1))
+            for group in groups:
+                result_row = {}  # Single row like V1: 123, V2:123, timespamp:abcd
+                for param in params:
+                    sql = "SELECT {func}(`{key}`) AS `{key}` FROM admin_database.`{name}` WHERE unix_time BETWEEN {start_time} AND {end_time}".format(
+                        name=self.get_device(device)["name"] + "-" + str(device),
+                        start_time=group[0],
+                        end_time=group[1],
+                        key=param,
+                        func=func,
+                    )
+                    r = sql_handler.getResult(sql)
+                    timestamp = time_helper.get_datetime_from_unixtime(group[0])
+                    # timestamp = r[0]['timestamp']
+                    # if r[0]['timestamp'] == None:
+                    #     timestamp = time_helper.get_datetime_from_unixtime(group[0])
+                    # else:
+                    #     timestamp %= (interval*60)
+                    if r:
+                        result_row[param] = self._get_sql_float(r, param)
+                        
 
-            # bool_val = not all(result_row.values())
-            # if bool_val:
-            #     continue
-            result_row["timestamp"] = timestamp
-            result_row.update(meta)
-            result.append(result_row)
-            
-            # print(result_row)
+                non_device_keys = {"timestamp", "name", "id"}
+                if not any(value is not None for key, value in result_row.items() if key not in non_device_keys):
+                    continue
+                
+                result_row["timestamp"] = timestamp
+                result_row.update(meta)
+                result.append(result_row)
+                        
         logfo.logs("Modbus", "Fetching Report Done")
         return result
 

@@ -17,7 +17,12 @@ const ButtonGroup = (props) => {
   const reportingState = useSelector((state) => state.reportingState);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const openModal = () => setIsModalVisible(true);
+  const [reportType,setReportType] = useState('pdf')
+
+  const openModal = (type) => {
+    setReportType(type)
+    setIsModalVisible(true)
+  };
 
   const closeModal = () => setIsModalVisible(false);
 
@@ -44,12 +49,14 @@ const ButtonGroup = (props) => {
     const report = {
       ...reportingState,
       ...{
-        day_start: reportingState.day_start.format("YYYY-MM-DD"),
-        day_end: reportingState.day_end.format("YYYY-MM-DD"),
+        day_start: reportingState.day_start.format("YYYY-MM-DD h:mm:ss"),
+        day_end: reportingState.day_end.format("YYYY-MM-DD h:mm:ss"),
       },
+      reportType: reportType
     };
+    const url = reportType === "csv" ? "http://127.0.0.1:5000/csv" : "http://127.0.0.1:5000/generate_report"
     axios
-      .post("http://127.0.0.1:5000/generate_report", report)
+      .post(url, report)
       .then(function (response) {
         // handle success
         const d = response.data;
@@ -92,16 +99,16 @@ const ButtonGroup = (props) => {
       </EuiFlexItem>
 
       <EuiFlexItem grow={false}>
-        {/* <EuiButton
+        <EuiButton
           isLoading={isLoading}
           disabled={props.disabled || !raiseValidation()}
           fill
           color="success"
-          onClick={openModal}
+          onClick={()=>{openModal('csv')}}
           iconType="number"
         >
           Generate CSV
-        </EuiButton> */}
+        </EuiButton>
       </EuiFlexItem>
 
       <EuiFlexItem grow={false}>

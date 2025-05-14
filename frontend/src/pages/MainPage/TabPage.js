@@ -57,12 +57,20 @@ const TabPage = (props) => {
     <div>
       <EuiSpacer />
       <EuiFlexGroup justifyContent="center" alignItems="center">
-        <EuiFlexItem style={{ maxWidth: "50%" }}>
-          <EuiPanel>
-            <EuiText color="subdued" textAlign="center">
-              <h4>Controls and Status</h4>
+        <EuiFlexItem grow={1}>
+          {meta.name ? (
+            <EuiText textAlign="center">
+              <h3>{meta.name}</h3>
+              <span>(Last Updated : {deviceData["timestamp"]} )</span>
             </EuiText>
-            <EuiSpacer />
+          ) : (
+            <EuiText>
+              <h3>Live Data: </h3>
+            </EuiText>
+          )}
+        </EuiFlexItem>
+        <EuiFlexItem grow={1}>
+          <EuiPanel>
             <TankControls
               deviceData={device_d}
               controlData={data_to_use}
@@ -72,6 +80,7 @@ const TabPage = (props) => {
         </EuiFlexItem>
       </EuiFlexGroup>
       <EuiSpacer />
+
 
       <DeviceCard
         meta={meta}
