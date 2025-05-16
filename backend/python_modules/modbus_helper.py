@@ -286,9 +286,9 @@ class Modbus:
         if 'polling_type' in device_found and device_found['polling_type'] == "multiple" and 'multi_poll_config' in device_found:
             if not self.running:
                 return
-            ad_hi = device_found['multi_pol_config']["ad_hi"] if "ad_hi" in device_found['multi_pol_config'] else 0
-            ad_lo = device_found['multi_pol_config']["ad_lo"]
-            qty_lo = device_found['multi_pol_config']["qty_lo"]
+            ad_hi = device_found['multi_poll_config']["ad_hi"] if "ad_hi" in device_found['multi_poll_config'] else 0
+            ad_lo = device_found['multi_poll_config']["ad_lo"]
+            qty_lo = device_found['multi_poll_config']["qty_lo"]
             if self.mock_mode:
                 data = [random.random() * 10]
             else:
