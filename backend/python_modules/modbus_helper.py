@@ -1,4 +1,3 @@
-from apscheduler.schedulers.background import BackgroundScheduler
 import python_modules.logfo as logfo
 import python_modules.sql_handler as sql_handler
 import python_modules.time_helper as time_helper
