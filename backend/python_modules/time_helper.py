@@ -30,7 +30,7 @@ def get_unix_time():
     return str(int(time.time()))
 
 def get_unixtime_from_datetime(date):
-    d = datetime.strptime(date, '%Y-%m-%d')
+    d = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
     news_date = d.replace()
     unix_time = int(news_date.timestamp())
     return str(unix_time)
