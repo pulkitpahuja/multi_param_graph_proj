@@ -17,11 +17,11 @@ const ButtonGroup = (props) => {
   const reportingState = useSelector((state) => state.reportingState);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [reportType,setReportType] = useState('pdf')
+  const [reportType, setReportType] = useState("pdf");
 
   const openModal = (type) => {
-    setReportType(type)
-    setIsModalVisible(true)
+    setReportType(type);
+    setIsModalVisible(true);
   };
 
   const closeModal = () => setIsModalVisible(false);
@@ -52,9 +52,12 @@ const ButtonGroup = (props) => {
         day_start: reportingState.day_start.format("YYYY-MM-DD h:mm:ss"),
         day_end: reportingState.day_end.format("YYYY-MM-DD h:mm:ss"),
       },
-      reportType: reportType
+      reportType: reportType,
     };
-    const url = reportType === "csv" ? "http://127.0.0.1:5000/csv" : "http://127.0.0.1:5000/generate_report"
+    let url = "http://127.0.0.1:5000/generate_report";
+    if (reportType === "csv") {
+      url = "http://127.0.0.1:5000/csv";
+    }
     axios
       .post(url, report)
       .then(function (response) {
@@ -104,7 +107,9 @@ const ButtonGroup = (props) => {
           disabled={props.disabled || !raiseValidation()}
           fill
           color="success"
-          onClick={()=>{openModal('csv')}}
+          onClick={() => {
+            openModal("csv");
+          }}
           iconType="number"
         >
           Generate CSV
