@@ -94,7 +94,9 @@ const ButtonGroup = (props) => {
           disabled={props.disabled || !raiseValidation()}
           fill
           color="success"
-          onClick={openModal}
+          onClick={() => {
+            openModal("pdf]");
+          }}
           iconType="document"
         >
           Generate PDF
