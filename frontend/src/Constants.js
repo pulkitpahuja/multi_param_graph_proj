@@ -7,3 +7,4 @@ export const DEVICEMETA_LINK = "http://127.0.0.1:5000/get_devices";
 export const TANKCONTROL_LINK = "http://127.0.0.1:5000/set_tank_controls";
 export const ALL_VARS_LINK = "http://127.0.0.1:5000/get_vars";
 export const CUSTOM_GRAPH_DATA = "http://127.0.0.1:5000/graph_var_data_stream";
+export const HEADER_TEXT = "Electrical Data Acquisition Software"

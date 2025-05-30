@@ -10,7 +10,7 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
 } from "@elastic/eui";
-import { ERROR_DATA_LINK, DATA_LINK, VAR_DATA_LINK } from "../../Constants";
+import { ERROR_DATA_LINK, DATA_LINK, HEADER_TEXT } from "../../Constants";
 import Tabs from "./Tabs";
 import { setVal } from "../../store/slices/dataSlice";
 import { setErrorVal } from "../../store/slices/errorDataSlice";
@@ -124,7 +124,7 @@ const MainPage = () => {
     <EuiPage paddingSize="s">
       <EuiPageBody>
         <EuiPageHeader
-          pageTitle="Data Monitoring"
+          pageTitle={HEADER_TEXT || "Data Monitoring"}
           description={
             <EuiFlexGroup>
               <EuiFlexItem grow={false}>
